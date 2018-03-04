@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>data.walnut-creek.org</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/vendor/bootgrid/jquery.bootgrid.min.css" rel="stylesheet">
+    <link href="/css/custom.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/simple-sidebar.css" rel="stylesheet">
+<style>
+.pagination li {
+ margin-left: 0.25em;
+ margin-right: 0.25em;
+}
+</style>
+
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Page Content i-->
+        <div id="page-content-wrapper">
+
+
+	<div class="modal fade" id="drilldown" tabindex="-1" role="dialog" aria-labelledby="drilldownLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="drilldownLabel">Instruct Appliance</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+<center>
+        <form method="POST" action="https://dev-api.halovision.io:8080/command/label" >
+                <input id="label_serial" name="serial" type="hidden" value=""></input>
+		<input name="label" type="text" placeholder="Appliance Label"></input>
+                <input type="submit" value="Set Label"></input>
+        </form>
+	<br/>
+        <form method="POST" action="https://dev-api.halovision.io:8080/command/approveregistration" >
+                <input id="approveregistration_serial" name="serial" type="hidden" value=""></input>
+                <input type="submit" value="Approve Pending Registration"></input>
+        </form>
+	<br/>
+        <form method="POST" action="https://dev-api.halovision.io:8080/command/updateanalytics">
+                <input id="uploadanalytics_serial" name="serial" type="hidden" value=""></input>
+                <input type="submit" value="Request Analytics"></input>
+        </form>
+        <br/>
+
+	<form method="POST" action="https://dev-api.halovision.io:8080/command/updatemodel">
+		<input id="changeneuralnet_serial" name="serial" type="hidden" value=""></input>
+		<select name="networkmodel" id="neuralnetselect"></select>
+		<input type="submit" value="Load Application"></input>
+	</form>        
+	<br/>
+       	<form method="POST" action="https://dev-api.halovision.io:8080/command/reboot">
+		<input id="reboot_serial" name="serial" type="hidden" value=""></input>
+		<input type="submit" value="Reboot Appliance"></input>
+       	</form>
+        <br/>
+	<form method="POST" action="https://dev-api.halovision.io:8080/command/updatesystem" >
+		<input id="updatesystem_serial" name="serial" type="hidden" value=""></input>
+		<select name="version" id="systemselect"></select>
+                <input type="submit" value="Update Appliance Software"></input>
+        </form>
+
+	<textarea id="crashreport" style="width: 100%;" >
+		
+	</textarea>
+
+</center>
+
+     	</div>
+      	<div class="modal-footer">
+     	   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+     	 </div>
+   	 </div>
+ 	 </div>
+	</div>  
+
+          <div class="container-fluid">
+		<center>
+ 		<h1>Walnut Creek</h1>
+	        <h2>Your City, Your Issues</h2>
+		</center>
+		<table id="grid-data-api" class="table table-condensed table-hover table-striped" >
+        	<thead>
+        	<tr>
+                	<th data-column-id="status">Status</th>
+			<th data-column-id="issue">Issue</th>
+                	<th data-column-id="issue_tag">Issue Tag</th>
+			<th data-column-id="timestamp">Timestamp</th>
+            	</tr>
+			</thead>
+			</table>
+
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/popper/popper.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/vendor/bootgrid/jquery.bootgrid.min.js"></script> 
+
+
+    <!-- Menu Toggle Script -->
+    <script>
+    $("#grid-data-api").bootgrid(
+ 	{
+        ajax: true,
+	url: "http://20.36.31.20:8080/admin",
+	selection: false,
+	multiSelect: false,
+	padding: 4,
+	navigation: 0,
+    	post: function ()
+    	{
+        /* To accumulate custom parameter with the request object */
+        return {
+            id: "b0df282a-0d67-40e5-8558-c9e93b7befed"
+        };
+    	}
+        }
+
+
+        ) 
+        .on("click.rs.jquery.bootgrid", function (e, columns, row)
+        {
+		if(row) {
+		$('#drilldownLabel')
+				.html("Issue "+row.issue_title);
+			$("#label_tag")
+				.attr("value", row.issue_tag);
+			$("#label_timestamp")
+				.attr("value", row.issue_timestamp);
+			$("#label_status")
+				.attr("value", row.issue_status);
+			$('#drilldown').modal();
+	       }
+        });
+    </script>
+
+</body>
+
+</html>

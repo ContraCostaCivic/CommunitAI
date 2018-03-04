@@ -1,0 +1,50 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "0.1",
+    "title": "Room Calc",
+    "description": "Room Calc backend. ExpressJs server documentation.",
+    "contact": {
+      "name": "business@signalgarden.com"
+    }
+  },
+  "basePath": "/v1",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "parameters": {
+    "uuid": {
+      "name": "uuid",
+      "in": "path",
+      "description": "The universal unique identifier number",
+      "type": "number",
+      "required": true
+    }
+  },
+  "securityDefinitions": {
+    "apikey": {
+      "type": "apiKey",
+      "name": "server_token",
+      "in": "query"
+    }
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Default home directory",
+        "description": "This the root directory",
+        "responses": {
+          "400": {
+            "description": "Unauthorized access to the root directory."
+          }
+        }
+      }
+    }
+  }
+}

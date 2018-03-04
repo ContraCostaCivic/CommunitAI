@@ -1,0 +1,16 @@
+version: "2"
+services:
+
+ mongo:
+  image: mongo
+  environment:
+     - MONGO_INITDB_ROOT_USERNAME=root
+     - MONGO_INITDB_ROOT_PASSWORD=password
+     - MONGO_INITDB_DATABASE=halovision
+  ports: 
+     - "27017:27017"
+  expose:
+     - "27017"
+  volumes:
+     - ./docker_stage/mongo/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+     - ./docker_stage/mongo/data:/data

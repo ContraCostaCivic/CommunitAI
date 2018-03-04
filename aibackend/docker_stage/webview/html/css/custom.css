@@ -1,0 +1,25 @@
+button, input {
+  overflow: hidden;
+}
+
+/* Hide the file input using
+opacity */
+
+
+
+
+
+
+/* Bootstrap Custom Colors */
+[type=submit] {
+	color: white;
+	font-weight: bold;
+	background-color: green;
+	cursor: pointer;
+}
+
+[type=submit]:hover{
+	color: black;
+	background-color: #319936;
+
+}

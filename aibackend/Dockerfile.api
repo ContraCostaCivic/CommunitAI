@@ -1,0 +1,16 @@
+#Base image is node:argon
+FROM node:argon
+
+#Copy staging directory to the image
+RUN mkdir /app
+COPY docker_stage/api /app
+
+#Set working directory to /app
+WORKDIR /app
+
+#Install nodejs modules to /app on docker image
+RUN npm install --loglevel=warn
+
+#Set command to run on docker run
+RUN chmod +x /app/run.sh
+CMD [ "/bin/bash", "/app/run.sh" ]
